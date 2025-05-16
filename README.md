@@ -1,4 +1,4 @@
-🐾# ProjetoPetShop  
+# ProjetoPetShop🐾  
 Projeto em grupo para a faculdade Anhanguera. 5ºSemestre - Análise e Desenvolvimento de Sistemas  
 
 Participantes:
