@@ -6,9 +6,9 @@ USE petstop;
 CREATE TABLE IF NOT EXISTS animais (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    especie VARCHAR(50),
-    idade BIGINT,
-    vacinado BOOLEAN,
+    especie VARCHAR(50) NOT NULL,
+    idade BIGINT NOT NULL,
+    vacinado BOOLEAN NOT NULL,
     UNIQUE (nome, especie) -- Para impedir que tenha cadastro de animais duplicados
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS animais (
 CREATE TABLE IF NOT EXISTS produtos (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    quantidade BIGINT,
-    preco DECIMAL(10,2),
-    ativo BOOLEAN
+    quantidade BIGINT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    ativo BOOLEAN NOT NULL
 );
