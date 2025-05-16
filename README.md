@@ -1,4 +1,4 @@
-# ProjetoPetShop🐾  
+# ProjetoPetStop🐾  
 Projeto em grupo para a faculdade Anhanguera. 5ºSemestre - Análise e Desenvolvimento de Sistemas  
 
 Participantes:
@@ -7,6 +7,7 @@ Participantes:
 - Pedro Henrique de Souza Aguilar
 
 
-Controle de Animais – PetShop
-Sistema simples para gerenciamento de animais e seus donos em um PetShop.  
-Projeto desenvolvido com Java, MySQL e POO, com interface gráfica feita em Swing.
+Descrição do Projeto:
+Gerenciamento de Animais do PetStop🐶🐱  
+Gerenciamento e Estoque da loja🛒  
+Desenvolvido com Java, MySQL e POO, com interface gráfica feita em Swing.
