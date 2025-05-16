@@ -1,5 +1,5 @@
-🐾# ProjetoPetShop  🐾
-Projeto em grupo para a faculdade. 5ºSemestre - Análise e Desenvolvimento de Sistemas  
+🐾# ProjetoPetShop  
+Projeto em grupo para a faculdade Anhanguera. 5ºSemestre - Análise e Desenvolvimento de Sistemas  
 
 Participantes:
 - Vitor Rodrigues dos Santos  
