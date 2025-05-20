@@ -1,6 +1,3 @@
-// Pacote opcional, ajuste conforme a estrutura do seu projeto.
-// Exemplo: package com.petstop.dao;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,23 +7,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-// Importe suas classes Conexao e Produto.
-// Exemplo: import com.petstop.db.Conexao;
-// Exemplo: import com.petstop.model.Produto;
+//Importando as classes Conexao e Produto.
+import com.petstop.db.Conexao;
+import com.petstop.model.Produto;
 
 /**
  * DAO (Data Access Object) para a entidade Produto.
  * Contém métodos para realizar operações CRUD (Create, Read, Update, Delete)
  * na tabela 'produtos' do banco de dados.
- * 🛒
  */
 public class ProdutoDAO {
 
     /**
      * Adiciona um novo produto ao banco de dados.
      * O ID do produto é gerado automaticamente pelo banco.
-     *
-     * @param produto O objeto Produto a ser adicionado.
      * @return true se o produto foi adicionado com sucesso, false caso contrário.
      */
     public boolean adicionarProduto(Produto produto) {
@@ -41,7 +35,7 @@ public class ProdutoDAO {
                 System.err.println("Falha ao conectar ao banco de dados para adicionar produto.");
                 return false;
             }
-            // O Statement.RETURN_GENERATED_KEYS permite obter o ID gerado.
+            //O Statement.RETURN_GENERATED_KEYS permite obter o ID gerado.
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, produto.getNome());
             pstmt.setLong(2, produto.getQuantidade());
@@ -51,10 +45,10 @@ public class ProdutoDAO {
             int linhasAfetadas = pstmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                // Recupera o ID gerado pelo banco
+                //Recupera o ID gerado pelo banco
                 generatedKeys = pstmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    produto.setId(generatedKeys.getLong(1)); // Define o ID no objeto produto
+                    produto.setId(generatedKeys.getLong(1)); //Define o ID no objeto produto
                 }
                 System.out.println("Produto adicionado com sucesso! ID: " + produto.getId());
                 return true;
@@ -64,7 +58,7 @@ public class ProdutoDAO {
             }
         } catch (SQLException e) {
             System.err.println("Erro de SQL ao adicionar produto: " + e.getMessage());
-            // e.printStackTrace(); // Para depuração mais detalhada
+            //e.printStackTrace(); //Para depuração mais detalhada
             return false;
         } finally {
             try {
@@ -73,14 +67,12 @@ public class ProdutoDAO {
             } catch (SQLException e) {
                 System.err.println("Erro ao fechar PreparedStatement ou ResultSet (adicionarProduto): " + e.getMessage());
             }
-            Conexao.fechar(conn); // Fecha a conexão principal
+            Conexao.fechar(conn); //Fecha a conexão principal
         }
     }
 
     /**
      * Busca um produto pelo seu ID.
-     *
-     * @param id O ID do produto a ser buscado.
      * @return Um objeto Produto se encontrado, ou null caso contrário.
      */
     public Produto buscarProdutoPorId(long id) {
@@ -124,11 +116,10 @@ public class ProdutoDAO {
 
     /**
      * Lista todos os produtos cadastrados no banco de dados.
-     *
      * @return Uma lista de objetos Produto. A lista pode estar vazia se não houver produtos.
      */
     public List<Produto> listarTodosProdutos() {
-        String sql = "SELECT * FROM produtos ORDER BY nome ASC"; // Ordena por nome
+        String sql = "SELECT * FROM produtos ORDER BY nome ASC"; //Ordena por nome
         List<Produto> produtos = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
@@ -138,7 +129,7 @@ public class ProdutoDAO {
             conn = Conexao.conectar();
             if (conn == null) {
                 System.err.println("Falha ao conectar ao banco de dados para listar produtos.");
-                return produtos; // Retorna lista vazia
+                return produtos; //Retorna lista vazia
             }
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
@@ -168,7 +159,6 @@ public class ProdutoDAO {
 
     /**
      * Atualiza os dados de um produto existente no banco de dados.
-     *
      * @param produto O objeto Produto com os dados atualizados. O ID do produto deve estar preenchido.
      * @return true se o produto foi atualizado com sucesso, false caso contrário.
      */
@@ -218,8 +208,6 @@ public class ProdutoDAO {
 
     /**
      * Remove um produto do banco de dados pelo seu ID.
-     *
-     * @param id O ID do produto a ser removido.
      * @return true se o produto foi removido com sucesso, false caso contrário.
      */
     public boolean removerProduto(long id) {
@@ -269,17 +257,18 @@ public class ProdutoDAO {
 
         System.out.println("--- Testando ProdutoDAO ---");
 
-        // Teste de Adicionar
+        //Teste de Adicionar um produto
         System.out.println("\n1. Adicionando Produtos...");
         Produto prod1 = new Produto("Ração Premium Cães Adultos", 50L, new BigDecimal("150.99"), true);
         Produto prod2 = new Produto("Arranhador para Gatos Simples", 100L, new BigDecimal("45.50"), true);
         Produto prod3 = new Produto("Coleira Antipulgas (descontinuada)", 0L, new BigDecimal("75.00"), false);
 
-        produtoDAO.adicionarProduto(prod1); // ID será definido aqui dentro
+        //ID definido nesse trecho
+        produtoDAO.adicionarProduto(prod1);
         produtoDAO.adicionarProduto(prod2);
         produtoDAO.adicionarProduto(prod3);
 
-        // Teste de Listar Todos
+        //Teste de Listar todos os produtos
         System.out.println("\n2. Listando todos os Produtos:");
         List<Produto> todosProdutos = produtoDAO.listarTodosProdutos();
         if (todosProdutos.isEmpty()) {
@@ -290,14 +279,14 @@ public class ProdutoDAO {
             }
         }
 
-        // Teste de Buscar por ID (usando o ID do prod1, se ele foi inserido)
+        //Teste de Buscar por ID (usando o ID do prod1, se ele foi inserido)
         if (prod1.getId() != null && prod1.getId() > 0) {
             System.out.println("\n3. Buscando Produto com ID " + prod1.getId() + ":");
             Produto produtoEncontrado = produtoDAO.buscarProdutoPorId(prod1.getId());
             if (produtoEncontrado != null) {
                 System.out.println("   Encontrado: " + produtoEncontrado);
 
-                // Teste de Atualizar
+                //Teste de Atualizar um produto
                 System.out.println("\n4. Atualizando Produto com ID " + produtoEncontrado.getId() + " (preço para 155.00, quantidade para 45):");
                 produtoEncontrado.setPreco(new BigDecimal("155.00"));
                 produtoEncontrado.setQuantidade(45L);
@@ -315,7 +304,7 @@ public class ProdutoDAO {
         }
 
 
-        // Teste de Remover (usando o ID do prod2, se ele foi inserido)
+        //Teste de Remover um produto (usando o ID do prod2, se ele foi inserido)
         if (prod2.getId() != null && prod2.getId() > 0) {
             System.out.println("\n5. Removendo Produto com ID " + prod2.getId() + ":");
             if (produtoDAO.removerProduto(prod2.getId())) {
