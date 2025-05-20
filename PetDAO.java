@@ -1,6 +1,3 @@
-// Pacote opcional, ajuste conforme a estrutura do seu projeto.
-// Exemplo: package com.petstop.dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-// Importe suas classes Conexao e Pet.
-// Exemplo: import com.petstop.db.Conexao;
-// Exemplo: import com.petstop.model.Pet;
+//Importando as classes Conexao e Pet.
+import com.petstop.db.Conexao;
+import com.petstop.model.Pet;
 
 /**
  * DAO (Data Access Object) para a entidade Pet.
@@ -21,10 +18,7 @@ import java.util.List;
 public class PetDAO {
 
     /**
-     * Adiciona um novo pet ao banco de dados.
-     * O ID do pet é gerado automaticamente pelo banco.
-     *
-     * @param pet O objeto Pet a ser adicionado.
+     * Adiciona um novo pet ao banco de dados (O ID do pet é gerado automaticamente pelo banco).
      * @return true se o pet foi adicionado com sucesso, false caso contrário.
      */
     public boolean adicionarPet(Pet pet) {
@@ -49,10 +43,10 @@ public class PetDAO {
             int linhasAfetadas = pstmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                // Recupera o ID gerado pelo banco
+                //Recupera o ID gerado pelo banco
                 generatedKeys = pstmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    pet.setId(generatedKeys.getLong(1)); // Define o ID no objeto pet
+                    pet.setId(generatedKeys.getLong(1)); //Define o ID no objeto pet
                 }
                 System.out.println("Pet adicionado com sucesso! ID: " + pet.getId());
                 return true;
@@ -62,8 +56,8 @@ public class PetDAO {
             }
         } catch (SQLException e) {
             System.err.println("Erro de SQL ao adicionar pet: " + e.getMessage());
-            // Adicionar log mais detalhado da exceção se necessário
-            // e.printStackTrace();
+            //Adicionar log mais detalhado da exceção se necessário
+            //e.printStackTrace();
             return false;
         } finally {
             try {
@@ -72,13 +66,12 @@ public class PetDAO {
             } catch (SQLException e) {
                 System.err.println("Erro ao fechar PreparedStatement ou ResultSet: " + e.getMessage());
             }
-            Conexao.fechar(conn); // Fecha a conexão principal
+            Conexao.fechar(conn); //Fecha a conexão principal
         }
     }
 
     /**
      * Busca um pet pelo seu ID.
-     *
      * @param id O ID do pet a ser buscado.
      * @return Um objeto Pet se encontrado, ou null caso contrário.
      */
@@ -122,22 +115,21 @@ public class PetDAO {
     }
 
     /**
-     * Lista todos os pets cadastrados no banco de dados.
-     *
+     * Lista de todos os pets cadastrados no banco de dados.
      * @return Uma lista de objetos Pet. A lista pode estar vazia se não houver pets.
      */
     public List<Pet> listarTodosPets() {
-        String sql = "SELECT * FROM animais ORDER BY nome ASC"; // Ordena por nome para melhor visualização
+        String sql = "SELECT * FROM animais ORDER BY nome ASC"; //Ordena por nome para melhor visualização
         List<Pet> pets = new ArrayList<>();
         Connection conn = null;
-        Statement stmt = null; // Usando Statement simples pois não há parâmetros de entrada
+        Statement stmt = null; //Usando Statement simples pois não há parâmetros de entrada
         ResultSet rs = null;
 
         try {
             conn = Conexao.conectar();
             if (conn == null) {
                 System.err.println("Falha ao conectar ao banco de dados para listar pets.");
-                return pets; // Retorna lista vazia
+                return pets; //Retorna lista vazia
             }
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
@@ -167,7 +159,6 @@ public class PetDAO {
 
     /**
      * Atualiza os dados de um pet existente no banco de dados.
-     *
      * @param pet O objeto Pet com os dados atualizados. O ID do pet deve estar preenchido.
      * @return true se o pet foi atualizado com sucesso, false caso contrário.
      */
@@ -217,7 +208,6 @@ public class PetDAO {
 
     /**
      * Remove um pet do banco de dados pelo seu ID.
-     *
      * @param id O ID do pet a ser removido.
      * @return true se o pet foi removido com sucesso, false caso contrário.
      */
@@ -268,17 +258,18 @@ public class PetDAO {
 
         System.out.println("--- Testando PetDAO ---");
 
-        // Teste de Adicionar
+        //Adicionar pets no sistema
         System.out.println("\n1. Adicionando Pets...");
         Pet pet1 = new Pet("Rex", "Cachorro", 5, true);
-        Pet pet2 = new Pet("Mimi", "Gato", 3, false);
+        Pet pet2 = new Pet("Leona", "Gato", 11, false);
         Pet pet3 = new Pet("Loro", "Papagaio", 10, true);
 
-        petDAO.adicionarPet(pet1); // ID será definido aqui dentro
+        //ID definido nesse trecho
+        petDAO.adicionarPet(pet1);
         petDAO.adicionarPet(pet2);
         petDAO.adicionarPet(pet3);
 
-        // Teste de Listar Todos
+        //Teste de Listar Todos
         System.out.println("\n2. Listando todos os Pets:");
         List<Pet> todosPets = petDAO.listarTodosPets();
         if (todosPets.isEmpty()) {
@@ -289,14 +280,14 @@ public class PetDAO {
             }
         }
 
-        // Teste de Buscar por ID (usando o ID do pet1, se ele foi inserido)
+        //Teste de Buscar por ID (usando o ID do pet1, se ele foi inserido)
         if (pet1.getId() != null && pet1.getId() > 0) {
             System.out.println("\n3. Buscando Pet com ID " + pet1.getId() + ":");
             Pet petEncontrado = petDAO.buscarPetPorId(pet1.getId());
             if (petEncontrado != null) {
                 System.out.println("   Encontrado: " + petEncontrado);
 
-                // Teste de Atualizar
+                //Teste de atualizar o registro 
                 System.out.println("\n4. Atualizando Pet com ID " + petEncontrado.getId() + " (idade para 6, vacinado para false):");
                 petEncontrado.setIdade(6);
                 petEncontrado.setVacinado(false);
@@ -314,7 +305,7 @@ public class PetDAO {
         }
 
 
-        // Teste de Remover (usando o ID do pet2, se ele foi inserido)
+        //Teste de remover um registro (usando o ID do pet2, se ele foi inserido)
         if (pet2.getId() != null && pet2.getId() > 0) {
             System.out.println("\n5. Removendo Pet com ID " + pet2.getId() + ":");
             if (petDAO.removerPet(pet2.getId())) {
