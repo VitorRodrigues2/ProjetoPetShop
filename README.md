@@ -3,7 +3,7 @@ Projeto em grupo para a faculdade Anhanguera. 5ºSemestre - Análise e Desenvolv
 
 Participantes:
 - Vitor Rodrigues dos Santos  
-- Kevin  
+- Kevin Fabrício Pereira Rodrigues de Carvalho
 - Pedro Henrique de Souza Aguilar
 
 
