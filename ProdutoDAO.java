@@ -7,9 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-//Importando as classes Conexao e Produto.
-import com.petstop.db.Conexao;
-import com.petstop.model.Produto;
+//Importar as classes Conexao e Produto caso necessário.
+//import com.petstop.db.Conexao;
+//import com.petstop.model.Produto;
 
 /**
  * DAO (Data Access Object) para a entidade Produto.
@@ -21,10 +21,10 @@ public class ProdutoDAO {
     /**
      * Adiciona um novo produto ao banco de dados.
      * O ID do produto é gerado automaticamente pelo banco.
-     * @return true se o produto foi adicionado com sucesso, false caso contrário.
+     * @ return true se o produto foi adicionado com sucesso, false caso contrário.
      */
     public boolean adicionarProduto(Produto produto) {
-        String sql = "INSERT INTO produtos (nome, quantidade, preco, ativo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO produtos (nome, quantidade, preco, disponivel) VALUES (?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
@@ -40,7 +40,7 @@ public class ProdutoDAO {
             pstmt.setString(1, produto.getNome());
             pstmt.setLong(2, produto.getQuantidade());
             pstmt.setBigDecimal(3, produto.getPreco());
-            pstmt.setBoolean(4, produto.isAtivo());
+            pstmt.setBoolean(4, produto.isDisponivel());
 
             int linhasAfetadas = pstmt.executeUpdate();
 
@@ -73,7 +73,7 @@ public class ProdutoDAO {
 
     /**
      * Busca um produto pelo seu ID.
-     * @return Um objeto Produto se encontrado, ou null caso contrário.
+     * @ return Um objeto Produto se encontrado, ou null caso contrário.
      */
     public Produto buscarProdutoPorId(long id) {
         String sql = "SELECT * FROM produtos WHERE id = ?";
@@ -98,7 +98,7 @@ public class ProdutoDAO {
                 produto.setNome(rs.getString("nome"));
                 produto.setQuantidade(rs.getLong("quantidade"));
                 produto.setPreco(rs.getBigDecimal("preco"));
-                produto.setAtivo(rs.getBoolean("ativo"));
+                produto.setDisponivel(rs.getBoolean("disponivel"));
             }
         } catch (SQLException e) {
             System.err.println("Erro de SQL ao buscar produto por ID: " + e.getMessage());
@@ -116,7 +116,7 @@ public class ProdutoDAO {
 
     /**
      * Lista todos os produtos cadastrados no banco de dados.
-     * @return Uma lista de objetos Produto. A lista pode estar vazia se não houver produtos.
+     * @ return Uma lista de objetos Produto. A lista pode estar vazia se não houver produtos.
      */
     public List<Produto> listarTodosProdutos() {
         String sql = "SELECT * FROM produtos ORDER BY nome ASC"; //Ordena por nome
@@ -140,7 +140,7 @@ public class ProdutoDAO {
                 produto.setNome(rs.getString("nome"));
                 produto.setQuantidade(rs.getLong("quantidade"));
                 produto.setPreco(rs.getBigDecimal("preco"));
-                produto.setAtivo(rs.getBoolean("ativo"));
+                produto.setDisponivel(rs.getBoolean("disponivel"));
                 produtos.add(produto);
             }
         } catch (SQLException e) {
@@ -159,11 +159,11 @@ public class ProdutoDAO {
 
     /**
      * Atualiza os dados de um produto existente no banco de dados.
-     * @param produto O objeto Produto com os dados atualizados. O ID do produto deve estar preenchido.
-     * @return true se o produto foi atualizado com sucesso, false caso contrário.
+     * @ param produto O objeto Produto com os dados atualizados. O ID do produto deve estar preenchido.
+     * @ return true se o produto foi atualizado com sucesso, false caso contrário.
      */
     public boolean atualizarProduto(Produto produto) {
-        String sql = "UPDATE produtos SET nome = ?, quantidade = ?, preco = ?, ativo = ? WHERE id = ?";
+        String sql = "UPDATE produtos SET nome = ?, quantidade = ?, preco = ?, disponivel = ? WHERE id = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
 
@@ -182,7 +182,7 @@ public class ProdutoDAO {
             pstmt.setString(1, produto.getNome());
             pstmt.setLong(2, produto.getQuantidade());
             pstmt.setBigDecimal(3, produto.getPreco());
-            pstmt.setBoolean(4, produto.isAtivo());
+            pstmt.setBoolean(4, produto.isDisponivel());
             pstmt.setLong(5, produto.getId());
 
             int linhasAfetadas = pstmt.executeUpdate();
@@ -208,7 +208,7 @@ public class ProdutoDAO {
 
     /**
      * Remove um produto do banco de dados pelo seu ID.
-     * @return true se o produto foi removido com sucesso, false caso contrário.
+     * @ return true se o produto foi removido com sucesso, false caso contrário.
      */
     public boolean removerProduto(long id) {
         String sql = "DELETE FROM produtos WHERE id = ?";
