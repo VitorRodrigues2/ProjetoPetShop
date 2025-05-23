@@ -4,32 +4,31 @@ import java.math.BigDecimal; //Pacote BigDecimal para o preço
  * Representa um Produto no sistema PetStop.
  * Esta classe é um modelo de dados que corresponde à tabela 'produtos' no banco de dados.
  */
-
 public class Produto {
 
     private Long id; // Corresponde à coluna 'id' (BIGINT AUTO_INCREMENT PRIMARY KEY)
     private String nome; // Corresponde à coluna 'nome' (VARCHAR(100) NOT NULL)
     private long quantidade; // Corresponde à coluna 'quantidade' (BIGINT NOT NULL)
     private BigDecimal preco; // Corresponde à coluna 'preco' (DECIMAL(10,2) NOT NULL)
-    private boolean ativo; // Corresponde à coluna 'ativo' (BOOLEAN NOT NULL)
+    private boolean disponivel; // Corresponde à coluna 'disponivel' (BOOLEAN NOT NULL)
 
     //Construtor padrão.
     public Produto() {
     }
 
-    public Produto(Long id, String nome, long quantidade, BigDecimal preco, boolean ativo) {
+    public Produto(Long id, String nome, long quantidade, BigDecimal preco, boolean disponivel) {
         this.id = id;
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.ativo = ativo;
+        this.disponivel = disponivel;
     }
     
-    public Produto(String nome, long quantidade, BigDecimal preco, boolean ativo) {
+    public Produto(String nome, long quantidade, BigDecimal preco, boolean disponivel) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.ativo = ativo;
+        this.disponivel = disponivel;
     }
 
     //Retorna o ID do produto.
@@ -69,13 +68,13 @@ public class Produto {
         this.preco = preco;
     }
 
-    //Retorna se o produto está ativo
-    public boolean isAtivo() {
-        return ativo;
+    //Retorna se o produto está disponivel
+    public boolean isDisponivel() {
+        return disponivel;
     }
-    //Define se o produto está ativo
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    //Define se o produto está disponivel
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 
     //Retorna uma representação em String do objeto Produto.
@@ -86,7 +85,7 @@ public class Produto {
                ", nome='" + nome + '\'' +
                ", quantidade=" + quantidade +
                ", preco=" + (preco != null ? preco.toPlainString() : "null") + // Formata o BigDecimal para string
-               ", ativo=" + ativo +
+               ", disponivel=" + disponivel +
                '}';
     }
 }
