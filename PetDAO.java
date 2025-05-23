@@ -6,9 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-//Importando as classes Conexao e Pet.
-import com.petstop.db.Conexao;
-import com.petstop.model.Pet;
+//Importar as classes Conexao e Pet caso necessário.
+//import com.petstop.db.Conexao;
+//import com.petstop.model.Pet;
 
 /**
  * DAO (Data Access Object) para a entidade Pet.
@@ -19,7 +19,7 @@ public class PetDAO {
 
     /**
      * Adiciona um novo pet ao banco de dados (O ID do pet é gerado automaticamente pelo banco).
-     * @return true se o pet foi adicionado com sucesso, false caso contrário.
+     * @ return true se o pet foi adicionado com sucesso, false caso contrário.
      */
     public boolean adicionarPet(Pet pet) {
         String sql = "INSERT INTO animais (nome, especie, idade, vacinado) VALUES (?, ?, ?, ?)";
@@ -72,8 +72,8 @@ public class PetDAO {
 
     /**
      * Busca um pet pelo seu ID.
-     * @param id O ID do pet a ser buscado.
-     * @return Um objeto Pet se encontrado, ou null caso contrário.
+     * @ param id O ID do pet a ser buscado.
+     * @ return Um objeto Pet se encontrado, ou null caso contrário.
      */
     public Pet buscarPetPorId(long id) {
         String sql = "SELECT * FROM animais WHERE id = ?";
@@ -116,7 +116,7 @@ public class PetDAO {
 
     /**
      * Lista de todos os pets cadastrados no banco de dados.
-     * @return Uma lista de objetos Pet. A lista pode estar vazia se não houver pets.
+     * @ return Uma lista de objetos Pet. A lista pode estar vazia se não houver pets.
      */
     public List<Pet> listarTodosPets() {
         String sql = "SELECT * FROM animais ORDER BY nome ASC"; //Ordena por nome para melhor visualização
@@ -159,8 +159,8 @@ public class PetDAO {
 
     /**
      * Atualiza os dados de um pet existente no banco de dados.
-     * @param pet O objeto Pet com os dados atualizados. O ID do pet deve estar preenchido.
-     * @return true se o pet foi atualizado com sucesso, false caso contrário.
+     * @ param pet O objeto Pet com os dados atualizados. O ID do pet deve estar preenchido.
+     * @ return true se o pet foi atualizado com sucesso, false caso contrário.
      */
     public boolean atualizarPet(Pet pet) {
         String sql = "UPDATE animais SET nome = ?, especie = ?, idade = ?, vacinado = ? WHERE id = ?";
@@ -208,8 +208,8 @@ public class PetDAO {
 
     /**
      * Remove um pet do banco de dados pelo seu ID.
-     * @param id O ID do pet a ser removido.
-     * @return true se o pet foi removido com sucesso, false caso contrário.
+     * @ param id O ID do pet a ser removido.
+     * @ return true se o pet foi removido com sucesso, false caso contrário.
      */
     public boolean removerPet(long id) {
         String sql = "DELETE FROM animais WHERE id = ?";
@@ -249,78 +249,5 @@ public class PetDAO {
             }
             Conexao.fechar(conn);
         }
-    }
-
-    // --- Método Principal para Teste (Opcional) ---
-    // Remova ou comente este método em produção.
-    public static void main(String[] args) {
-        PetDAO petDAO = new PetDAO();
-
-        System.out.println("--- Testando PetDAO ---");
-
-        //Adicionar pets no sistema
-        System.out.println("\n1. Adicionando Pets...");
-        Pet pet1 = new Pet("Rex", "Cachorro", 5, true);
-        Pet pet2 = new Pet("Leona", "Gato", 11, false);
-        Pet pet3 = new Pet("Loro", "Papagaio", 10, true);
-
-        //ID definido nesse trecho
-        petDAO.adicionarPet(pet1);
-        petDAO.adicionarPet(pet2);
-        petDAO.adicionarPet(pet3);
-
-        //Teste de Listar Todos
-        System.out.println("\n2. Listando todos os Pets:");
-        List<Pet> todosPets = petDAO.listarTodosPets();
-        if (todosPets.isEmpty()) {
-            System.out.println("   Nenhum pet encontrado.");
-        } else {
-            for (Pet p : todosPets) {
-                System.out.println("   " + p);
-            }
-        }
-
-        //Teste de Buscar por ID (usando o ID do pet1, se ele foi inserido)
-        if (pet1.getId() != null && pet1.getId() > 0) {
-            System.out.println("\n3. Buscando Pet com ID " + pet1.getId() + ":");
-            Pet petEncontrado = petDAO.buscarPetPorId(pet1.getId());
-            if (petEncontrado != null) {
-                System.out.println("   Encontrado: " + petEncontrado);
-
-                //Teste de atualizar o registro 
-                System.out.println("\n4. Atualizando Pet com ID " + petEncontrado.getId() + " (idade para 6, vacinado para false):");
-                petEncontrado.setIdade(6);
-                petEncontrado.setVacinado(false);
-                if (petDAO.atualizarPet(petEncontrado)) {
-                    Pet petAtualizado = petDAO.buscarPetPorId(petEncontrado.getId());
-                    System.out.println("   Dados após atualização: " + petAtualizado);
-                } else {
-                    System.out.println("   Falha ao atualizar o pet.");
-                }
-            } else {
-                System.out.println("   Pet com ID " + pet1.getId() + " não encontrado para teste de busca/atualização.");
-            }
-        } else {
-             System.out.println("\nAVISO: Não foi possível testar busca por ID e atualização pois o primeiro pet não obteve um ID válido.");
-        }
-
-
-        //Teste de remover um registro (usando o ID do pet2, se ele foi inserido)
-        if (pet2.getId() != null && pet2.getId() > 0) {
-            System.out.println("\n5. Removendo Pet com ID " + pet2.getId() + ":");
-            if (petDAO.removerPet(pet2.getId())) {
-                System.out.println("   Pet removido. Verificando lista novamente:");
-                todosPets = petDAO.listarTodosPets();
-                 for (Pet p : todosPets) {
-                    System.out.println("   " + p);
-                }
-            } else {
-                System.out.println("   Falha ao remover o pet com ID " + pet2.getId());
-            }
-        } else {
-            System.out.println("\nAVISO: Não foi possível testar remoção pois o segundo pet não obteve um ID válido.");
-        }
-        
-        System.out.println("\n--- Fim dos Testes PetDAO ---");
     }
 }
