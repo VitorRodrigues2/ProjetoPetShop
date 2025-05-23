@@ -23,7 +23,7 @@ public class Main {
         System.out.println("INFO: Tentando conectar ao banco de dados PetStop...");
         Connection conn = Conexao.conectar();
 
-        // Se não conseguir conectar, exibo erro e encerro o programa
+        //Se não conseguir conectar, exibo erro e encerro o programa
         if (conn == null) {
             mostrarMensagemErroFatal(
                 "Falha crítica ao conectar ao banco de dados.\n" +
@@ -71,22 +71,19 @@ public class Main {
 
                 System.out.println("INFO: Iniciando interface gráfica do PetStop...");
 
-                PetShopUI telaPrincipal = new PetShopUI();
+                PetStopUI telaPrincipal = new PetStopUI();
                 telaPrincipal.setTitle("PetStop - Gerenciamento 🐶🐱🛒");
                 telaPrincipal.setVisible(true);
-                */
 
                 JFrame placeholderFrame = new JFrame("PetStop - Gerenciamento (Em Desenvolvimento)");
-                placeholderFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                placeholderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 placeholderFrame.setSize(600, 400); //Tamanho da janela de placeholder
 
                 JLabel placeholderLabel = new JLabel(
                     "<html><div style='text-align: center;'>" +
                     "<h1>🐶 PetStop Gerenciamento 🐱🛒</h1>" +
-                    "<p>Interface Principal será carregada aqui.</p>" +
                     "<p>Conexão com o banco de dados testada com sucesso.</p>" +
                     "<p>Tabelas 'animais' e 'produtos' verificadas.</p>" +
-                    "<br><p><em>Desenvolva sua TelaPrincipal e integre-a em Main.java.</em></p>" +
                     "</div></html>",
                     SwingConstants.CENTER
                 );
