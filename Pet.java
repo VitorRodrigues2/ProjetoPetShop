@@ -2,7 +2,6 @@
  * Representa um animal (Pet) no sistema PetStop.
  * Esta classe é um modelo de dados que corresponde à tabela 'animais' no banco de dados.
  */
-
 public class Pet {
     
     private Long id; // Corresponde à coluna 'id' (BIGINT AUTO_INCREMENT PRIMARY KEY)
