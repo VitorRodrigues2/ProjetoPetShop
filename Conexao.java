@@ -5,7 +5,7 @@ import java.sql.SQLException;
 //Classe que contém os métodos para abrir e fechar a conexão com o banco de dados.
 public class Conexao {
     private static final String URL = "jdbc:mysql://localhost:3306/PetStop";
-    private static final String USUARIO = "root"; //usuário padrão do banco
+    public static final String USUARIO = "root"; //usuário padrão do banco
     private static final String SENHA = "";
 
     //Método no qual vai conectar com o banco PetStop
